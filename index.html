@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Prayatna Bhandari | Portfolio</title>
+
+<style>
+/* ================= ROOT THEMES ================= */
+:root{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#ffffff;
+    --primary:#6C63FF;
+    --secondary:#00C2FF;
+}
+
+body.sports{
+    --primary:#ff4d1a;
+    --secondary:#ffb703;
+}
+
+/* ================= RESET ================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    transition:.5s ease;
+}
+
+/* ================= CURSOR GLOW ================= */
+.cursor{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    position:fixed;
+    pointer-events:none;
+    background:var(--primary);
+    transform:translate(-50%,-50%);
+    filter:blur(8px);
+    z-index:9999;
+}
+
+/* ================= HEADER ================= */
+header{
+    position:fixed;
+    top:0;
+    width:100%;
+    padding:15px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(0,0,0,0.3);
+    backdrop-filter:blur(15px);
+    z-index:1000;
+}
+
+.logo{
+    font-size:1.4rem;
+    font-weight:700;
+}
+
+nav{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    font-weight:500;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:var(--primary);
+}
+
+/* ================= TOGGLE ================= */
+.switch{
+    display:flex;
+    background:rgba(255,255,255,0.1);
+    border-radius:30px;
+    overflow:hidden;
+    margin-left:10px;
+}
+
+.switch button{
+    padding:8px 15px;
+    border:none;
+    background:none;
+    color:white;
+    cursor:pointer;
+}
+
+.switch .active{
+    background:var(--primary);
+}
+
+/* ================= HERO ================= */
+.hero{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:0 10%;
+}
+
+.hero h1{
+    font-size:3rem;
+}
+
+.hero span{
+    color:var(--primary);
+}
+
+.typing{
+    margin-top:10px;
+    font-size:1.2rem;
+    opacity:0.8;
+}
+
+.btn{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+    color:white;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-5px);
+}
+
+/* ================= SECTIONS ================= */
+section{
+    padding:80px 10%;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+/* ================= ABOUT ================= */
+.about{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:15px;
+    font-family: sans-serif;
+    font-style: normal;
+}
+
+/* ================= SKILLS ================= */
+.skill{
+    margin:10px 0;
+}
+
+.bar{
+    height:10px;
+    background:#333;
+    border-radius:10px;
+}
+
+.bar div{
+    height:10px;
+    width:0;
+    background:var(--primary);
+    border-radius:10px;
+    transition:2s;
+}
+
+/* ================= PROJECTS ================= */
+.projects{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+/* ================= STATS ================= */
+.stats{
+    display:flex;
+    justify-content:space-around;
+    text-align:center;
+}
+
+.stats div{
+    font-size:1.5rem;
+}
+
+/* ================= GALLERY ================= */
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:10px;
+}
+
+.gallery div{
+    height:150px;
+    background:var(--card);
+    border-radius:10px;
+}
+
+/* ================= CONTACT ================= */
+form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+input, textarea{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    text-align:center;
+    padding:30px;
+    background:#000;
+}
+
+/* ================= ANIMATION ================= */
+.reveal{
+    opacity:0;
+    transform:translateY(50px);
+    transition:1s;
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ================= HAMBURGER ================= */
+
+.menu-btn{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    cursor:pointer;
+}
+
+.menu-btn span{
+    width:24px;
+    height:3px;
+    background:white;
+    border-radius:10px;
+}
+
+/* ================= MOBILE NAV ================= */
+
+.mobile-nav{
+    position:fixed;
+    left:-280px;
+    top:0;
+
+    width:260px;
+    height:100vh;
+
+    background:#111827;
+
+    padding:90px 25px;
+
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+
+    transition:.4s ease;
+
+    z-index:2000;
+}
+
+.mobile-nav.show{
+    left:0;
+}
+
+.mobile-nav a{
+    color:white;
+    text-decoration:none;
+    font-size:1.05rem;
+    font-weight:500;
+}
+
+.mobile-nav a:hover{
+    color:var(--primary);
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.5);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.3s;
+
+    z-index:1500;
+}
+
+.overlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    /* Hide normal nav links */
+    nav a:not(.sports-btn){
+        display:none;
+    }
+
+    /* Hide theme switch */
+    .switch{
+        display:none;
+    }
+
+    /* Show hamburger */
+    .menu-btn{
+        display:flex;
+    }
+
+    /* Keep Sports Speak button visible */
+    .sports-btn{
+        display:inline-block;
+        padding:8px 14px;
+        font-size:.9rem;
+    }
+
+    header{
+        display:grid;
+        grid-template-columns:auto 1fr auto;
+        align-items:center;
+    }
+
+    .logo{
+        text-align:center;
+    }
+
+    .about{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:2.2rem;
+    }
+
+    .stats{
+        flex-direction:column;
+        gap:20px;
+    }
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:768px){
+    .about{
+        grid-template-columns:1fr;
+    }
+    .stats{
+        flex-direction:column;
+        gap:20px;
+    }
+}
+
+@media(max-width:500px){
+    .sports-btn{
+        font-size:0;
+    }
+
+    .sports-btn::after{
+        content:"⚽";
+        font-size:1rem;
+    }
+}
+</style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+<div class="mobile-nav" id="mobileNav">
+
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#skills" onclick="closeMenu()">Skills</a>
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#gallery" onclick="closeMenu()">Gallery</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+
+    <a href="sports.html"
+       target="_blank"
+       onclick="closeMenu()">
+       Sports Speak ⚽
+    </a>
+
+</div>
+
+<div class="cursor"></div>
+
+<!-- ================= HEADER ================= -->
+<header>
+    <div class="menu-btn" id="menuBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+    <div class="logo">PrayatnaBhandari</div>
+
+    <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+
+        <!-- SPORTS SPEAK BUTTON -->
+        <a href="sports.html" target="_blank" class="btn sports-btn">Sports Speak ⚽</a>
+
+        <!-- THEME SWITCH -->
+        <div class="switch">
+            <button class="active" onclick="setTheme('dark')">Dark</button>
+            <button onclick="setTheme('light')">Light</button>
+        </div>
+    </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+    <h1>Hello, I'm <span>Prayatna Bhandari</span></h1>
+    <div class="typing" id="typing"></div>
+    <button class="btn">Explore Portfolio</button>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="reveal">
+    <h2>About Me</h2>
+    <div class="about">
+        <div class="card">
+            I am a passionate developer and content creator from Nepal. I love building modern websites,
+            exploring technology, and creating sports content through Sports Speak.
+        </div>
+        <div class="card">
+            Focused on web development, UI/UX design, and sports analysis. My goal is to grow as a full-stack
+            developer and digital creator.
+        </div>
+    </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section class="reveal">
+    <h2>Skills</h2>
+
+    <div class="skill">HTML <div class="bar"><div data="95%"></div></div></div>
+    <div class="skill">CSS <div class="bar"><div data="90%"></div></div></div>
+    <div class="skill">JavaScript <div class="bar"><div data="85%"></div></div></div>
+    <div class="skill">PHP <div class="bar"><div data="70%"></div></div></div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" class="reveal">
+    <h2>Projects</h2>
+    <div class="projects">
+        <div class="card">Sports Speak Platform</div>
+        <div class="card">World Cup Simulator</div>
+        <div class="card">Portfolio Website</div>
+    </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="reveal stats">
+    <div><h1 class="count" data-target="15">0</h1>Projects</div>
+    <div><h1 class="count" data-target="50">0</h1>Videos</div>
+    <div><h1 class="count" data-target="120">0</h1>Ideas</div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="reveal">
+    <h2>Gallery</h2>
+    <div class="gallery">
+        <div>
+        </div><div></div><div></div><div></div>
+    </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="reveal">
+    <h2>Contact Me</h2>
+    <form>
+        <input placeholder="Your Name">
+        <input placeholder="Email">
+        <textarea placeholder="Message"></textarea>
+        <button class="btn">Send</button>
+    </form>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    <p>© 2026 Prayatna Bhandari | All Rights Reserved</p>
+    <p>Follow: Instagram | YouTube | Facebook</p>
+</footer>
+
+<script>
+
+/* ================= CURSOR ================= */
+const cursor = document.querySelector(".cursor");
+document.addEventListener("mousemove",(e)=>{
+    cursor.style.left = e.clientX+"px";
+    cursor.style.top = e.clientY+"px";
+});
+
+/* ================= TYPING EFFECT ================= */
+const text = ["Developer","Content Creator","Sports Enthusiast","Web Designer"];
+let i=0,j=0;
+function typing(){
+    if(j < text[i].length){
+        document.getElementById("typing").innerHTML += text[i][j];
+        j++;
+        setTimeout(typing,100);
+    }else{
+        setTimeout(()=>{
+            document.getElementById("typing").innerHTML="";
+            j=0;
+            i=(i+1)%text.length;
+            typing();
+        },1500);
+    }
+}
+typing();
+
+/* ================= SKILL BARS ================= */
+window.addEventListener("scroll",()=>{
+    document.querySelectorAll(".bar div").forEach(bar=>{
+        bar.style.width = bar.getAttribute("data");
+    });
+});
+
+/* ================= COUNTERS ================= */
+const counters = document.querySelectorAll(".count");
+window.addEventListener("scroll",()=>{
+    counters.forEach(counter=>{
+        let target = +counter.getAttribute("data-target");
+        let count = +counter.innerText;
+        if(count < target){
+            counter.innerText = count + 1;
+        }
+    });
+});
+
+/* ================= SCROLL REVEAL ================= */
+window.addEventListener("scroll",()=>{
+    document.querySelectorAll(".reveal").forEach(el=>{
+        let top = el.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+            el.classList.add("active");
+        }
+    });
+});
+
+/* ================= THEME ================= */
+function setTheme(mode){
+    document.body.className = mode;
+}
+const menuBtn = document.getElementById("menuBtn");
+const mobileNav = document.getElementById("mobileNav");
+const overlay = document.getElementById("overlay");
+
+menuBtn.addEventListener("click", () => {
+    mobileNav.classList.add("show");
+    overlay.classList.add("show");
+});
+
+function closeMenu(){
+    mobileNav.classList.remove("show");
+    overlay.classList.remove("show");
+}
+
+overlay.addEventListener("click", closeMenu);
+
+</script>
+
+</body>
+</html>
