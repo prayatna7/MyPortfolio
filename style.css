@@ -1,0 +1,192 @@
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --accent-color: #d32f2f; /* Cricket Red */
+    --card-bg: #fff;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #f4f4f4;
+    --card-bg: #2d2d2d;
+}
+.logo img{
+    width: 20%;
+    height: auto;
+}
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: 0.3s;
+}
+
+/* Header & Nav */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 5%;
+    background: var(--card-bg);
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-left { display: flex; align-items: center; gap: 20px; }
+.menu-icon { font-size: 24px; cursor: pointer; }
+.brand-name { font-weight: bold; font-size: 1.5rem; color: var(--accent-color); }
+
+.main-nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* Sidebar */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 200;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidebar ul { list-style: none; padding: 0; }
+.sidebar ul li a {
+    padding: 15px 32px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Sections */
+section { padding: 60px 10%; text-align: center; }
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card img { width: 100%; border-radius: 10px; }
+
+/* Buttons */
+.sub-btn, #join-btn {
+    background: var(--accent-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* Modal */
+.modal { display: none; position: fixed; z-index: 300; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+.modal-content { background: var(--card-bg); margin: 15% auto; padding: 20px; width: 300px; border-radius: 10px; text-align: center; }
+
+footer {
+    background: var(--card-bg);
+    padding: 40px 10%;
+    display: flex;
+    justify-content: space-between;
+    border-top: 2px solid var(--accent-color);
+}
+/* --- Responsive Layout Rules --- */
+
+/* 1. Universal Container Padding */
+section { 
+    padding: 60px 5%; /* Smaller side padding for mobile */
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
+/* 2. Responsive Grid for Player Cards */
+.grid-container {
+    display: grid;
+    /* This line is magic: it creates as many columns as fit, 
+       but never makes a card smaller than 250px */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* 3. Media Queries for Mobile Screens (Phones) */
+@media screen and (max-width: 768px) {
+    /* Hide the main-nav links on mobile and keep only the hamburger menu */
+    .main-nav {
+        display: none; 
+    }
+
+    .hero h1 {
+        font-size: 2rem; /* Smaller text for mobile screens */
+    }
+
+    footer {
+        flex-direction: column; /* Stack contact and join sections vertically */
+        text-align: center;
+        gap: 30px;
+    }
+
+    .brand-name {
+        font-size: 1.2rem; /* Keep logo area compact */
+    }
+}
+
+/* 4. Hero Section adjustment */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('cricket-bg.jpg');
+    background-size: cover;
+    color: white;
+    border-radius: 0 0 50px 50px;
+}
+
+/* 5. Event List Responsiveness */
+.event-list {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to drop to the next line */
+    justify-content: center;
+    gap: 15px;
+}
+
+.event-item {
+    flex: 1 1 300px; /* Grow, shrink, and base width of 300px */
+    background: var(--card-bg);
+    padding: 20px;
+    border-left: 5px solid var(--accent-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
