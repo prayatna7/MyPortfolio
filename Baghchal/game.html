@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+Play Baghchal Online - Traditional Nepali Tiger and Goat Board Game
+</title>
+<link rel="icon" href="Baghchal-logo.png" type="image/png">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top, #334155, #020617 70%);
+    color:white;
+    font-family: "Segoe UI", Arial, sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:20px;
+}
+
+header{
+    width:min(95vw,900px);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    background:rgba(15,23,42,.8);
+    border:1px solid rgba(255,255,255,.15);
+    padding:15px;
+    border-radius:18px;
+    box-shadow:0 10px 30px #0008;
+}
+
+.game-title{
+    font-size:clamp(22px,4vw,34px);
+    font-weight:800;
+    color:#fbbf24;
+}
+
+.info{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+textarea{
+    resize:none;
+    height:35px;
+    padding:8px;
+    border-radius:10px;
+    border:1px solid #64748b;
+    background:#111827;
+    color:white;
+    font-size:15px;
+    text-align:center;
+    overflow:hidden;
+}
+
+#resetid{
+    height:35px;
+    padding:0 18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#dc2626;
+    color:white;
+    font-weight:bold;
+}
+
+#resetid:hover{
+    background:#ef4444;
+}
+
+main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px 0;
+    width:100%;
+}
+.game-panel{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+}
+
+.board{
+    width:min(85vw,600px);
+    aspect-ratio:1/1;
+    display:flex;
+    flex-wrap:wrap;
+    background-image:url(lines.png),url(BG1.webp);
+    background-position:center, center;
+    background-size:cover, cover;
+    border-radius:20px;
+    border:5px solid #92400e;
+    box-shadow:
+        0 0 30px #000,
+        inset 0 0 20px #000;
+}
+
+.childs{
+    width:20%;
+    height:20%;
+    position:relative;
+}
+
+.childs button{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    width:clamp(38px,7vw,60px);
+    height:clamp(38px,7vw,60px);
+    border-radius:50%;
+    border:none;
+    background:transparent;
+    font-size:clamp(25px,5vw,42px);
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+/* Preserve original BaghChal intersections */
+.childs:nth-child(1)  button{ left:0%; top:0%; }
+.childs:nth-child(2)  button{ left:25%; top:0%; }
+.childs:nth-child(3)  button{ left:50%; top:0%; }
+.childs:nth-child(4)  button{ left:75%; top:0%; }
+.childs:nth-child(5)  button{ left:100%; top:0%; }
+ 
+.childs:nth-child(6)  button{ left:0%; top:25%; }
+.childs:nth-child(7)  button{ left:25%; top:25%; }
+.childs:nth-child(8)  button{ left:50%; top:25%; }
+.childs:nth-child(9)  button{ left:75%; top:25%; }
+.childs:nth-child(10) button{ left:100%; top:25%; }
+
+.childs:nth-child(11) button{ left:0%; top:50%; }
+.childs:nth-child(12) button{ left:25%; top:50%; }
+.childs:nth-child(13) button{ left:50%; top:50%; }
+.childs:nth-child(14) button{ left:75%; top:50%; }
+.childs:nth-child(15) button{ left:100%; top:50%; }
+
+.childs:nth-child(16) button{ left:0%; top:75%; }
+.childs:nth-child(17) button{ left:25%; top:75%; }
+.childs:nth-child(18) button{ left:50%; top:75%; }
+.childs:nth-child(19) button{ left:75%; top:75%; }
+.childs:nth-child(20) button{ left:100%; top:75%; }
+
+.childs:nth-child(21) button{ left:0%; top:100%; }
+.childs:nth-child(22) button{ left:25%; top:100%; }
+.childs:nth-child(23) button{ left:50%; top:100%; }
+.childs:nth-child(24) button{ left:75%; top:100%; }
+.childs:nth-child(25) button{ left:100%; top:100%; }
+
+.childs button:hover{
+    filter:drop-shadow(0 0 10px gold);
+}
+
+.isselected{
+    border:3px solid gold!important;
+    animation:glow .7s infinite alternate;
+}
+
+@keyframes glow{
+    from{box-shadow:0 0 8px gold;}
+    to{box-shadow:0 0 25px orange;}
+}
+
+.tips{
+    max-width:600px;
+    background:rgba(15,23,42,.85);
+    border-radius:15px;
+    padding:15px 20px;
+    text-align:center;
+    border:1px solid #475569;
+}
+
+.tips h3{
+    color:#facc15;
+    margin-bottom:8px;
+}
+
+@media(max-width:600px){
+    body{padding:10px;}
+
+    header{
+        justify-content:center;
+    }
+
+    .info{
+        justify-content:center;
+    }
+
+    .board{
+        width:92vw;
+        border-width:3px;
+    }
+}
+/* Victory Popup */
+
+
+.victory-overlay{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,0.85);
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:999;
+
+}
+
+
+
+.victory-box{
+
+
+    width:min(90%,450px);
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #1c1300,
+        #4a3200
+    );
+
+
+    border:3px solid gold;
+
+
+    border-radius:25px;
+
+
+    padding:40px;
+
+
+    text-align:center;
+
+
+    box-shadow:
+
+    0 0 40px gold;
+
+
+    animation:
+
+    victoryPop .5s ease;
+
+
+}
+
+
+
+
+@keyframes victoryPop{
+
+
+    from{
+
+        transform:scale(.5);
+
+        opacity:0;
+
+    }
+
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+
+}
+
+
+
+
+.victory-emoji{
+
+    font-size:80px;
+
+    animation:
+
+    bounceEmoji 1s infinite;
+
+
+}
+
+
+
+@keyframes bounceEmoji{
+
+
+    50%{
+
+        transform:translateY(-15px);
+
+    }
+
+}
+
+
+
+.victory-box h1{
+
+
+    color:#ffd700;
+
+    font-size:35px;
+
+    margin:20px;
+
+
+}
+
+
+
+.victory-box p{
+
+
+    color:white;
+
+    font-size:20px;
+
+}
+
+
+
+.celebration{
+
+    font-size:35px;
+
+    margin:20px;
+
+}
+
+
+
+.victory-buttons button{
+
+
+    padding:12px 25px;
+
+
+    margin:10px;
+
+
+    border-radius:25px;
+
+
+    border:none;
+
+
+    cursor:pointer;
+
+
+    background:#d4af37;
+
+
+    font-size:16px;
+
+
+}
+
+
+
+.victory-buttons button:hover{
+
+    transform:scale(1.05);
+
+    background:#ffd700;
+
+}
+</style>
+</head>
+
+<body>
+<header>
+    <div class="game-title">🐯 BaghChal - Tiger's Move</div>
+    <div class="info">
+        <button id="resetid" onclick="resetfn()">Reset</button>
+        <textarea id="resetMessage" readonly>Goat's Turn!</textarea>
+        <textarea id="goatsRemaining" readonly>20 Goats Remaining</textarea>
+    </div>
+</header>
+
+<main>
+<div class="game-panel">
+
+<div class="board" id="board1">
+<div class="childs"><button onclick="move(0)" class="emojiArea" id="0">🐯</button></div>
+<div class="childs"><button onclick="move(1)" class="emojiArea" id="1"></button></div>
+<div class="childs"><button onclick="move(2)" class="emojiArea" id="2"></button></div>
+<div class="childs"><button onclick="move(3)" class="emojiArea" id="3"></button></div>
+<div class="childs"><button onclick="move(4)" class="emojiArea" id="4">🐯</button></div>
+<div class="childs"><button onclick="move(5)" class="emojiArea" id="5"></button></div>
+<div class="childs"><button onclick="move(6)" class="emojiArea" id="6"></button></div>
+<div class="childs"><button onclick="move(7)" class="emojiArea" id="7"></button></div>
+<div class="childs"><button onclick="move(8)" class="emojiArea" id="8"></button></div>
+<div class="childs"><button onclick="move(9)" class="emojiArea" id="9"></button></div>
+<div class="childs"><button onclick="move(10)" class="emojiArea" id="10"></button></div>
+<div class="childs"><button onclick="move(11)" class="emojiArea" id="11"></button></div>
+<div class="childs"><button onclick="move(12)" class="emojiArea" id="12"></button></div>
+<div class="childs"><button onclick="move(13)" class="emojiArea" id="13"></button></div>
+<div class="childs"><button onclick="move(14)" class="emojiArea" id="14"></button></div>
+<div class="childs"><button onclick="move(15)" class="emojiArea" id="15"></button></div>
+<div class="childs"><button onclick="move(16)" class="emojiArea" id="16"></button></div>
+<div class="childs"><button onclick="move(17)" class="emojiArea" id="17"></button></div>
+<div class="childs"><button onclick="move(18)" class="emojiArea" id="18"></button></div>
+<div class="childs"><button onclick="move(19)" class="emojiArea" id="19"></button></div>
+<div class="childs"><button onclick="move(20)" class="emojiArea" id="20">🐯</button></div>
+<div class="childs"><button onclick="move(21)" class="emojiArea" id="21"></button></div>
+<div class="childs"><button onclick="move(22)" class="emojiArea" id="22"></button></div>
+<div class="childs"><button onclick="move(23)" class="emojiArea" id="23"></button></div>
+<div class="childs"><button onclick="move(24)" class="emojiArea" id="24">🐯</button></div>
+
+</div>
+
+<div class="tips">
+<h3>⚔️ Strategy Arena</h3>
+<p>Trap the tigers with goats or hunt down enough goats to win. Think ahead — every move matters!</p>
+</div>
+
+</div>
+</main>
+<!-- Victory Popup -->
+
+<div id="victoryPopup" class="victory-overlay">
+
+    <div class="victory-box">
+
+        <div id="victoryEmoji" class="victory-emoji">
+            🏆
+        </div>
+
+
+        <h1 id="victoryTitle">
+            Victory!
+        </h1>
+
+
+        <p id="victoryMessage">
+            Congratulations!
+        </p>
+
+
+        <div class="celebration">
+            🎉 🏆 🎉
+        </div>
+
+
+        <div class="victory-buttons">
+
+            <button onclick="newGame()">
+                🔄 Start New Game
+            </button>
+
+
+            <button onclick="closeVictoryPopup()">
+                Continue
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+<script src="script.js"></script>
+<script src="page.js"></script>
+<script src="goat.js"></script>
+</body>
+</html>

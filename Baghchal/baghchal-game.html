@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta 
+name="description"
+content="
+Play Baghchal online, a traditional Nepali tiger and goat strategy board game.
+Learn the rules, understand the gameplay, and enjoy this classic strategy game
+directly in your browser.
+">
+<meta 
+name="author"
+content="Prayatna Bhandari">
+
+    <title>BaghChal | The Tiger Strategy Game</title>
+    <link rel="icon" href="Baghchal-logo.png" type="image/png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            background:
+                linear-gradient(rgba(0, 0, 0, .75),
+                    rgba(0, 0, 0, .9)),
+                url("https://images.unsplash.com/photo-1519681393784-d120267933ba");
+
+            background-size: cover;
+            background-position: center;
+
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+
+
+        /* Background effect */
+
+        body::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            background: #c9a227;
+
+            filter: blur(150px);
+
+            opacity: .25;
+
+            animation: glow 5s infinite alternate;
+
+        }
+
+        header {
+            width: min(95vw, 900px);
+            height: auto;
+            text-align: center;
+            color: #d4af37;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: rgba(15, 23, 42, .8);
+            border: 1px solid rgba(255, 255, 255, .15);
+            padding: 15px;
+            margin-top: 30px;
+            margin-bottom: 80px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px #0008;
+        }
+
+
+        @keyframes glow {
+
+            from {
+                transform: translate(-100px, -100px);
+            }
+
+            to {
+                transform: translate(100px, 100px);
+            }
+
+        }
+
+
+
+
+
+        /* Main card */
+
+
+        .container {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: min(92%, 720px);
+
+            padding: clamp(25px, 5vw, 55px);
+
+
+            text-align: center;
+
+
+            background:
+                rgba(20, 20, 20, .82);
+
+
+            border:
+
+                2px solid #c9a227;
+
+
+            border-radius: 25px;
+
+
+            box-shadow:
+
+                0 0 35px rgba(201, 162, 39, .45);
+
+
+        }
+
+
+
+
+        /* Title */
+
+
+        h2 {
+
+            font-size: clamp(38px, 8vw, 60px);
+
+            letter-spacing: 6px;
+
+            color: #d4af37;
+
+            text-shadow:
+
+                3px 3px 10px black;
+
+
+        }
+
+
+
+        .tagline {
+
+            margin-top: 10px;
+
+            font-size: clamp(16px, 3vw, 22px);
+
+            color: #eee;
+
+        }
+
+
+
+
+
+        .description {
+
+
+            margin: 30px auto;
+
+            max-width: 580px;
+
+            line-height: 1.7;
+
+            color: #ddd;
+
+            font-size: clamp(15px, 2.5vw, 18px);
+
+
+        }
+
+
+
+
+
+        /* Buttons */
+
+
+        button {
+
+            cursor: pointer;
+
+            border-radius: 40px;
+
+            padding: 15px 35px;
+
+            margin: 10px;
+
+            font-size: 18px;
+
+            transition: .3s;
+
+        }
+
+
+
+        .start {
+
+
+            background: #d4af37;
+
+            color: black;
+
+            border: none;
+
+            font-weight: bold;
+
+
+        }
+
+
+
+        .start:hover {
+
+            transform: scale(1.08);
+
+            background: #ffd700;
+
+        }
+
+
+
+
+        .rules {
+
+
+            background: transparent;
+
+            color: white;
+
+            border: 2px solid #d4af37;
+
+
+        }
+
+
+
+        .rules:hover {
+
+            background: #d4af37;
+
+            color: black;
+
+        }
+
+
+
+
+
+        /* Modal */
+
+
+        .modal {
+
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+
+            background:
+
+                rgba(0, 0, 0, .85);
+
+
+            justify-content: center;
+
+            align-items: center;
+
+
+            z-index: 10;
+
+
+        }
+
+
+
+
+        .rulesBox {
+
+
+            width: min(92%, 700px);
+
+            max-height: 85vh;
+
+
+            overflow-y: auto;
+
+
+            background: #171717;
+
+
+            padding: clamp(20px, 5vw, 40px);
+
+
+            border-radius: 20px;
+
+
+            border: 2px solid #d4af37;
+
+
+        }
+
+
+
+        .rulesBox h2 {
+
+
+            text-align: center;
+
+            color: #d4af37;
+
+            margin-bottom: 25px;
+
+
+        }
+
+
+
+        .rulesBox h3 {
+
+            margin-top: 20px;
+
+            color: #d4af37;
+
+        }
+
+
+
+        .rulesBox p,
+        .rulesBox li {
+
+            color: #ddd;
+
+            line-height: 1.7;
+
+        }
+
+
+
+        .rulesBox ul {
+
+            margin-left: 20px;
+
+        }
+
+
+
+
+
+        .close {
+
+
+            float: right;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            color: #ff5555;
+
+
+        }
+
+
+
+
+
+
+
+        /* Mobile adjustments */
+
+
+        @media(max-width:500px) {
+
+
+            .container {
+
+                border-radius: 18px;
+
+            }
+
+
+
+            button {
+
+                display: block;
+
+                width: 80%;
+
+                margin: 15px auto;
+
+            }
+
+
+            h2 {
+
+                letter-spacing: 3px;
+
+            }
+
+
+
+        }
+
+
+        /* ==========================================
+   BAGHCHAL INFORMATION SECTIONS
+   Dark Traditional Game Theme
+========================================== */
+
+
+        /* Main Section Container */
+
+        .seo-section {
+
+            width: min(90%, 1100px);
+
+            margin: 80px auto;
+
+            padding: 45px;
+
+            background:
+                linear-gradient(145deg,
+                    rgba(25, 25, 25, 0.85),
+                    rgba(10, 10, 10, 0.75));
+
+            border: 1px solid rgba(212, 175, 55, 0.35);
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 0 30px rgba(212, 175, 55, 0.12);
+
+            backdrop-filter: blur(12px);
+
+            box-sizing: border-box;
+
+        }
+
+
+
+        /* Section Heading */
+
+
+        .seo-section h2 {
+
+            text-align: center;
+
+            font-size: clamp(2rem, 4vw, 2.8rem);
+
+            letter-spacing: 4px;
+
+            color: #d4af37;
+
+            margin-bottom: 35px;
+
+            text-transform: uppercase;
+
+            text-shadow:
+                0 0 15px rgba(212, 175, 55, 0.5);
+
+        }
+
+
+
+
+        /* Paragraph Text */
+
+
+        .seo-section p {
+
+            color: #dddddd;
+
+            font-size: 1.1rem;
+
+            line-height: 1.9;
+
+            letter-spacing: .3px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        /* ==========================================
+        HOW TO PLAY SECTION
+========================================== */
+
+
+        .steps {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+
+        }
+
+
+
+        .step-card {
+
+
+            background:
+
+                linear-gradient(145deg,
+                    rgba(255, 255, 255, 0.06),
+                    rgba(0, 0, 0, 0.3));
+
+
+            border: 1px solid rgba(212, 175, 55, 0.25);
+
+
+            border-radius: 18px;
+
+
+            padding: 30px;
+
+
+            transition: .3s ease;
+
+
+        }
+
+
+        .step-card:hover {
+
+
+            transform: translateY(-8px);
+
+
+            border-color: #d4af37;
+
+
+            box-shadow:
+
+                0 0 25px rgba(212, 175, 55, 0.25);
+
+
+        }
+
+
+
+        .step-card h3 {
+
+
+            color: #d4af37;
+
+
+            font-size: 1.3rem;
+
+
+            margin-bottom: 15px;
+
+
+        }
+
+
+        .step-card p {
+
+
+            color: #cccccc;
+
+
+            font-size: 1rem;
+
+
+        }
+
+
+
+        /* ==========================================
+              RULES SECTION
+========================================== */
+
+
+        .rules ul {
+
+
+            list-style: none;
+
+
+            padding: 0;
+
+
+        }
+
+
+
+        .rules li {
+
+
+            position: relative;
+
+
+            padding: 18px 20px 18px 55px;
+
+
+            margin-bottom: 15px;
+
+
+            background:
+
+                rgba(255, 255, 255, 0.04);
+
+
+            border-left: 3px solid #d4af37;
+
+
+            border-radius: 10px;
+
+
+            color: #ddd;
+
+
+            font-size: 1.05rem;
+
+
+        }
+
+
+
+        .rules li::before {
+
+
+            content: "🐾";
+
+
+            position: absolute;
+
+
+            left: 18px;
+
+
+            top: 18px;
+
+
+        }
+
+
+
+        /* ==========================================
+             FEATURES SECTION
+========================================== */
+
+
+        .feature-grid {
+
+
+            display: grid;
+
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+
+            gap: 20px;
+
+
+        }
+
+
+
+        .feature-card {
+
+
+            padding: 25px;
+
+
+            text-align: center;
+
+
+            background:
+
+                rgba(255, 255, 255, 0.05);
+
+
+            border-radius: 18px;
+
+
+            border:
+
+                1px solid rgba(212, 175, 55, 0.25);
+
+
+            transition: .3s ease;
+
+
+        }
+
+
+
+        .feature-card:hover {
+
+
+            transform: translateY(-6px);
+
+
+            box-shadow:
+
+                0 0 25px rgba(212, 175, 55, 0.2);
+
+
+            border-color: #d4af37;
+
+
+        }
+
+
+
+        .feature-card h3 {
+
+
+            color: #d4af37;
+
+
+            margin-bottom: 12px;
+
+
+            font-size: 1.2rem;
+
+
+        }
+
+
+
+        .feature-card p {
+
+
+            color: #ccc;
+
+
+            font-size: .95rem;
+
+
+        }
+
+
+
+        /* ==========================================
+              RESPONSIVE DESIGN
+========================================== */
+
+
+        @media(max-width:900px) {
+
+
+            .steps {
+
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+
+            .feature-grid {
+
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+        }
+
+
+
+
+
+        @media(max-width:600px) {
+
+
+
+            .seo-section {
+
+
+                width: 92%;
+
+
+                padding: 25px;
+
+
+                margin: 50px auto;
+
+
+                border-radius: 18px;
+
+
+            }
+
+
+
+            .seo-section h2 {
+
+
+                font-size: 1.7rem;
+
+
+                letter-spacing: 2px;
+
+
+            }
+
+
+
+            .seo-section p {
+
+
+                font-size: 1rem;
+
+
+            }
+
+
+
+
+            .steps {
+
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+
+
+            .feature-grid {
+
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+
+            .step-card {
+
+
+                padding: 22px;
+
+            }
+
+
+
+            .rules li {
+
+
+                font-size: .95rem;
+
+
+                padding-left: 45px;
+
+
+            }
+
+
+        }
+
+
+
+
+        @media(max-width:380px) {
+
+
+            .seo-section {
+
+
+                padding: 20px;
+
+            }
+
+
+            .seo-section h2 {
+
+
+                font-size: 1.5rem;
+
+            }
+
+
+        }
+    </style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+    <header>
+        <h1>
+            Play Baghchal Online - The Traditional Nepali Tiger and Goat Game
+        </h1>
+    </header>
+
+    <div class="container">
+
+
+        <h2>🐅 BAGHCHAL</h2>
+
+
+        <div class="tagline">
+
+            The Ancient Himalayan Strategy Game
+
+        </div>
+
+
+
+        <p class="description">
+
+            A battle of intelligence between powerful tigers and a united army of goats.
+            Plan your moves carefully, trap your opponent, and prove your strategic mastery.
+
+        </p>
+
+
+
+        <button class="start" onclick="startGame()">
+
+            Start A New Game
+
+        </button>
+
+
+
+        <button class="rules" onclick="showRules()">
+
+            Rules
+
+        </button>
+
+
+    </div>
+
+
+
+
+
+    <!-- Rules Window -->
+
+
+    <div class="modal" id="rulesModal">
+
+
+        <div class="rulesBox">
+
+
+            <span class="close" onclick="hideRules()">✖</span>
+
+
+
+            <h2>🐅 BaghChal Rules</h2>
+
+
+
+            <h3>Game Setup</h3>
+
+            <ul>
+
+                <li>The board consists of 25 connected points.</li>
+
+                <li>Four tigers start at the four corners.</li>
+
+                <li>Twenty goats enter the board one by one.</li>
+
+            </ul>
+
+
+
+
+            <h3>Tiger Rules</h3>
+
+            <ul>
+
+                <li>Tigers move along connected lines.</li>
+
+                <li>A tiger can jump over a goat to capture it.</li>
+
+                <li>The captured goat is removed.</li>
+
+                <li>Tigers win by capturing enough goats.</li>
+
+            </ul>
+
+
+
+
+
+            <h3>Goat Rules</h3>
+
+
+            <ul>
+
+                <li>Goats are placed one at a time.</li>
+
+                <li>During placement, goats cannot move.</li>
+
+                <li>After all goats enter, they can move one step.</li>
+
+                <li>Goats cannot capture tigers.</li>
+
+            </ul>
+
+
+
+
+
+            <h3>Winning Conditions</h3>
+
+
+            <ul>
+
+                <li>Tigers win by capturing all 20 goats.</li>
+
+                <li>Goats win by trapping all tigers.\nLeaving no legal moves for all four tigers.</li>
+
+            </ul>
+
+
+
+
+
+            <h3>Strategy</h3>
+
+
+            <p>
+
+                The tiger must attack wisely while goats must work together.
+                A single mistake can change the entire game.
+
+            </p>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <section class="about-game seo-section">
+        <h2>About Baghchal Game</h2>
+
+        <p>
+            Baghchal is a traditional Nepali strategy board game played between
+            four tigers and twenty goats. The tigers try to capture goats while
+            the goats work together to surround and trap the tigers.
+        </p>
+
+        <p>
+            This online version of Baghchal recreates the classic board game
+            experience with an interactive interface built using modern web
+            technologies.
+        </p>
+    </section>
+    <section class="how-to-play seo-section">
+
+        <h2>How To Play Baghchal</h2>
+
+        <div class="steps">
+
+            <div class="step-card">
+                <h3>1. Tiger Movement</h3>
+                <p>
+                    Tigers move across connected points on the board and can
+                    capture goats by jumping over them.
+                </p>
+            </div>
+
+
+            <div class="step-card">
+                <h3>2. Goat Placement</h3>
+                <p>
+                    Goats are placed one by one on empty positions of the board.
+                </p>
+            </div>
+
+
+            <div class="step-card">
+                <h3>3. Winning</h3>
+                <p>
+                    Tigers win by capturing enough goats, while goats win by
+                    trapping all tigers.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+    <section class="rules seo-section">
+
+        <h2>Baghchal Game Rules</h2>
+
+
+        <ul>
+
+            <li>
+                There are four tigers and twenty goats.
+            </li>
+
+            <li>
+                The tiger player moves first.
+            </li>
+
+            <li>
+                Tigers capture goats by jumping over them.
+            </li>
+
+            <li>
+                Goats cannot capture tigers.
+            </li>
+
+            <li>
+                The goats win when all tigers become unable to move.
+            </li>
+
+            <li>
+                The tigers win by capturing enough goats.
+            </li>
+
+        </ul>
+
+
+    </section>
+    <section class="features seo-section">
+
+        <h2>Features of This Baghchal Game</h2>
+
+
+        <div class="feature-grid">
+
+
+            <div class="feature-card">
+                <h3>🎮 Interactive Gameplay</h3>
+                <p>
+                    Play Baghchal directly inside your browser.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <h3>📱 Responsive Design</h3>
+                <p>
+                    Optimized for desktop and mobile screens.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <h3>⚡ JavaScript Engine</h3>
+                <p>
+                    Game logic handles movement, captures and winning conditions.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <h3>🧠 Strategy Based</h3>
+                <p>
+                    Experience the traditional tactical gameplay.
+                </p>
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <script>
+
+
+        function startGame() {
+
+            window.location.href = "game.html";
+
+        }
+
+
+
+        function showRules() {
+
+            document.getElementById("rulesModal")
+                .style.display = "flex";
+
+        }
+
+
+
+        function hideRules() {
+
+            document.getElementById("rulesModal")
+                .style.display = "none";
+
+        }
+
+
+
+        window.onclick = function (event) {
+
+            let modal = document.getElementById("rulesModal");
+
+            if (event.target === modal) {
+
+                modal.style.display = "none";
+
+            }
+
+        }
+
+
+    </script>
+    <script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"VideoGame",
+ "name":"Baghchal Online",
+ "description":"A digital version of the traditional Nepali tiger and goat strategy board game.",
+ "genre":"Strategy Board Game",
+ "author":{
+   "@type":"Person",
+   "name":"Prayatna Bhandari"
+ },
+ "applicationCategory":"Game"
+}
+</script>
+</body>
+
+</html>
